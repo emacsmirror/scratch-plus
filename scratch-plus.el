@@ -424,6 +424,8 @@ This minor mode does two things:
                    scratch-plus-initial-message
                  (funcall scratch-plus-initial-message major-mode))))
       (comment-region (point-min) (point-max))
+      (goto-char (point-min))
+      (insert "\n")
       (add-file-local-variable-prop-line 'mode major-mode)
       (goto-char (point-max))
       (insert "\n\n"))))
