@@ -51,13 +51,12 @@
                  (const :tag "Force restoration of only buffer for initial-major-mode" initial)
                  (const :tag "Force restoration of all scratch buffers." t)))
 
-(defcustom scratch-plus-project-enable nil
+(defcustom scratch-plus-project-subdir nil
   "TODO"
   :group 'scratch-plus
   :type '(choice
-          (string :tag "Enable, save to project subdirectory.")
-          (const :tag "Enable, do not save." t)
-          (const :tag "Disable project-specific scratch buffers." nil)))
+          (string :tag "Save to project subdirectory.")
+          (const :tag "Do not save project-specific scratch buffers." nil)))
 
 (defcustom scratch-plus-save-directory nil
   "TODO"
@@ -113,10 +112,10 @@ Otherwise, return nil."
 If PROJECT is non-nil, get the directory to save project-local scratch
 files in."
   (cond
-   ((and project (stringp scratch-plus-project-enable))
+   ((and project (stringp scratch-plus-project-subdir))
     (file-name-as-directory
      (file-name-concat (project-root (project-current))
-                       scratch-plus-project-enable)))
+                       scratch-plus-project-subdir)))
    ((stringp scratch-plus-save-directory)
     (file-name-as-directory scratch-plus-save-directory))))
 
