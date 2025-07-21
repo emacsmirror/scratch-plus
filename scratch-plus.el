@@ -211,8 +211,29 @@ If BUFFER is nil, operate on the current buffer."
 
 ;;; Open Scratch Buffers
 
-
-;;; Restore Scratch Buffers
+(defun scratch-plus-buffer (mode &optional project)
+  "Get or restore scratch buffer for MODE.
+
+If PROJECT is non-nil, do so in project."
+  (let* ((scratch-buffer-name (scratch-plus--format-scratch-buffer-name mode project))
+         (buffer (get-buffer scratch-buffer-name)))
+    (if buffer
+        (progn
+          (with-current-buffer buffer
+            (when project
+              (setq-local default-directory (project-root project))))
+          buffer)
+      (let ((new-buffer (get-buffer-create scratch-buffer-name))
+            (save-file-name (and scratch-plus-restore-type
+                                 (scratch-plus--save-name mode project))))
+        (with-current-buffer new-buffer
+          (when save-file-name
+            (insert-file-contents save-file-name))
+          (goto-char (point-min))
+          (funcall mode)
+          (when project
+            (setq-local default-directory (project-root project))))
+        new-buffer))))
 
 
 ;;; Installation
