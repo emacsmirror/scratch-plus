@@ -352,7 +352,8 @@ If PROJECT is non-nil, do so in project."
             (save-file-name (and scratch-plus-restore-type
                                  (scratch-plus--save-name mode project))))
         (with-current-buffer new-buffer
-          (when save-file-name
+          (when (and save-file-name
+		     (file-exists-p save-file-name))
             (insert-file-contents save-file-name))
           (goto-char (point-min))
           (funcall mode)
