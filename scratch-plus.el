@@ -346,7 +346,16 @@ If PROJECT is non-nil, do so in project."
   "<remap> <save-buffer>" #'scratch-plus-save-buffer)
 
 (define-minor-mode scratch-plus-minor-mode
-  "TODO"
+  "Minor mode for `scratch-plus'.
+
+This minor mode does two things:
+
+ - When enabled, if the buffer is empty, it populates the initial
+   message using `scratch-plus-initial-message', adding a mode property
+   line.
+
+ - Remaps \\[save-buffer] to `scratch-plus-save-buffer' to store the
+   buffer correctly."
   :lighter " S+"
   :keymap scratch-plus-minor-mode-map
   (when scratch-plus-minor-mode
@@ -394,7 +403,23 @@ If PROJECT is non-nil, do so in project."
 ;;; User Interface
 
 (defun scratch-plus-switch (arg &optional project)
-  "TODO"
+  "Switch to scratch buffer.
+
+ARG is used to modify behavior as follows:
+
+ - nil
+   switch to the scratch buffer for `initial-major-mode'.
+
+ - \\[universal-argument]
+   Switches to a scratch buffer for the current major mode.
+
+ - \\[universal-argument] \\[universal-argument]
+   Prompts for a major mode to switch to by name.  Existing saved
+   scratch buffers and open scratch buffers are used to pre-populate the
+   list, however any major mode can be selected by typing its name
+   without \"-mode\".
+
+If PROJECT is passed, a project-scratch will be used instead."
   (interactive "P")
   (when-let* ((buffer
                (pcase arg
@@ -411,7 +436,10 @@ If PROJECT is non-nil, do so in project."
       (display-buffer buffer))))
 
 (defun scratch-plus-switch-project (arg)
-  "TODO"
+  "Switch to scratch buffer for current project.
+
+ARG follows semantics for
+`scratch-plus-switch' (\\[scratch-plus-switch]), which see."
   (interactive "P")
   (scratch-plus-switch arg (project-current)))
 
