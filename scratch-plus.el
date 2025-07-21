@@ -44,6 +44,12 @@
           (const :tag "On-demand restoration." demand)
           (const :tag "Always restore all." always)))
 
+(defcustom scratch-plus-force-restore nil
+  "TODO"
+  :group 'scratch-plus
+  :type '(choice (const :tag "Do not force restoration." nil)
+                 (const :tag "Force restoration." t)))
+
 (defcustom scratch-plus-project-enable nil
   "TODO"
   :group 'scratch-plus
@@ -220,6 +226,7 @@ If PROJECT is non-nil, do so in project."
     (if buffer
         (progn
           (with-current-buffer buffer
+            (scratch-plus-minor-mode)
             (when project
               (setq-local default-directory (project-root project))))
           buffer)
@@ -231,9 +238,17 @@ If PROJECT is non-nil, do so in project."
             (insert-file-contents save-file-name))
           (goto-char (point-min))
           (funcall mode)
+          (scratch-plus-minor-mode)
           (when project
             (setq-local default-directory (project-root project))))
         new-buffer))))
+
+
+;;; In-buffer minor mode
+
+(define-minor-mode scratch-plus-minor-mode
+  "TODO"
+  :lighter " S+")
 
 
 ;;; Installation
