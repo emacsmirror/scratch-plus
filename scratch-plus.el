@@ -42,7 +42,7 @@
   :type '(choice
           (const :tag "No restoration." nil)
           (const :tag "On-demand restoration." demand)
-          (const :tag "Always restore all." always)))
+          (const :tag "Restore all." t)))
 
 (defcustom scratch-plus-force-restore 'initial
   "TODO"
