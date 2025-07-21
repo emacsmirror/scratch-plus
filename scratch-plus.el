@@ -127,7 +127,7 @@ If the target directory does not exist, it will be created."
   (let* ((mode-function-name (format "%s-mode" the-mode-name))
          (mode-symbol (intern mode-function-name)))
     (when (fboundp mode-symbol)
-      `(function ,mode-symbol))))
+      mode-symbol)))
 
 (defun scratch-plus--mode-to-mode-name (mode)
   "Convert MODE into a mode name."
