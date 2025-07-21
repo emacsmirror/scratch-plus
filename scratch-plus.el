@@ -100,7 +100,7 @@ this many seconds."
           (integer :tag "Save scratch buffers every n seconds idle time.")))
 
 (defcustom scratch-plus-prevent-kill 'bury
-  "Should scratch-plus prevent scratch buffers from being killed?
+  "Should `scratch-plus' prevent scratch buffers from being killed?
 
 Default behavior is to bury scratch buffers instead of killing them.
 Other options preventing the scratch buffer from being killed and doing
@@ -369,14 +369,14 @@ If PROJECT is non-nil, do so in project."
   "Idle time when timer was set.")
 
 (defun scratch-plus-stop-idle-timer ()
-  "Cancel the scratch-plus idle save timer."
+  "Cancel the `scratch-plus' idle save timer."
   (when (timerp scratch-plus--idle-save-timer)
     (cancel-timer scratch-plus--idle-save-timer))
   (setf scratch-plus--idle-save-timer nil
         scratch-plus--idle-timer-initial-time nil))
 
 (defun scratch-plus-start-idle-timer ()
-  "Start the scratch-plus idle save timer."
+  "Start the `scratch-plus' idle save timer."
   (scratch-plus-stop-idle-timer)
   (when scratch-plus-idle-save
     (setf scratch-plus--idle-timer-initial-time scratch-plus-idle-save
