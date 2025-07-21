@@ -44,11 +44,12 @@
           (const :tag "On-demand restoration." demand)
           (const :tag "Always restore all." always)))
 
-(defcustom scratch-plus-force-restore nil
+(defcustom scratch-plus-force-restore 'initial
   "TODO"
   :group 'scratch-plus
   :type '(choice (const :tag "Do not force restoration." nil)
-                 (const :tag "Force restoration." t)))
+                 (const :tag "Force restoration of only buffer for initial-major-mode" initial)
+                 (const :tag "Force restoration of all scratch buffers." t)))
 
 (defcustom scratch-plus-project-enable nil
   "TODO"
