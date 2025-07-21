@@ -38,7 +38,12 @@
   :group 'convenience)
 
 (defcustom scratch-plus-restore-type 'demand
-  "TODO"
+  "How should scratch buffers be restored?
+
+Default behavior is to only restore scratch buffers when they are
+opened (`demand').  Other possibilities include no restoration (nil),
+and restoring all scratch buffers when `scratch-plus-mode' is
+enabled (t)."
   :group 'scratch-plus
   :type '(choice
           (const :tag "No restoration." nil)
@@ -46,14 +51,26 @@
           (const :tag "Restore all." t)))
 
 (defcustom scratch-plus-force-restore 'initial
-  "TODO"
+  "Should existing scratch buffers be deleted on restoration?
+
+Default behavior is to force the restoration of only the scratch buffer
+for `initial-major-mode' (value of `initial').  Other options include
+not forcing restoration at all (nil), or forcing the restoration of all
+scratch buffers (t)."
   :group 'scratch-plus
   :type '(choice (const :tag "Do not force restoration." nil)
                  (const :tag "Force restoration of only buffer for initial-major-mode" initial)
                  (const :tag "Force restoration of all scratch buffers." t)))
 
 (defcustom scratch-plus-project-subdir nil
-  "TODO"
+  "Where should project-specific scratch buffers be saved?
+
+If nil, project-specific scratch buffers will not be saved.  If a
+string, project-specific scratch buffers will be saved to a subdirectory
+in the project root with this name.
+
+This variable is safe as a buffer-local variable if it is nil or a
+string."
   :group 'scratch-plus
   :type '(choice
           (string :tag "Save to project subdirectory.")
@@ -61,21 +78,33 @@
   :safe #'string-or-null-p)
 
 (defcustom scratch-plus-save-directory nil
-  "TODO"
+  "Where should scratch buffers be saved?
+
+If nil, scratch buffers will not be saved.  Otherwise, if a directory,
+scratch buffers will be saved there.  The directory will be created as
+needed."
   :group 'scratch-plus
   :type '(choice
           (const :tag "Do not save scratch buffers." nil)
           (directory :tag "Save scratch buffers to directory.")))
 
 (defcustom scratch-plus-idle-save nil
-  "TODO"
+  "Should scratch buffers be saved when idle?
+
+If nil, scratch buffers will not be saved when idle.  Otherwise, if an
+integer, scratch buffers will be saved after Emacs has been idle for
+this many seconds."
   :group 'scratch-plus
   :type '(choice
           (const :tag "Do not autosave scratch buffers." nil)
           (integer :tag "Save scratch buffers every n seconds idle time.")))
 
-(defcustom scratch-plus-prevent-kill nil
-  "TODO"
+(defcustom scratch-plus-prevent-kill 'bury
+  "Should scratch-plus prevent scratch buffers from being killed?
+
+Default behavior is to bury scratch buffers instead of killing them.
+Other options preventing the scratch buffer from being killed and doing
+nothing (t) or allowing the scratch buffer to be killed (nil)."
   :group 'scratch-plus
   :type '(choice
           (const :tag "Do not prevent killing scratch buffers." nil)
@@ -83,7 +112,13 @@
           (const :tag "Prevent killing scratch buffers." t)))
 
 (defcustom scratch-plus-initial-message initial-scratch-message
-  "TODO"
+  "Initial message for scratch buffers.
+
+Either a string or a function which takes the major mode and returns a
+string.  The value will be run through `substitute-command-keys', and
+then wrapped in a comment using `comment-region'.
+
+Default is `initial-scratch-message'."
   :group 'scratch-plus
   :type '(choice (string :tag "Scratch message.")
                  (function :tag "Message generator function.")))
