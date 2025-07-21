@@ -41,3 +41,7 @@ This can be a string, which will be used directly, or a function which takes the
 In either case, the value will be filtered through `substitute-command-keys`, and then turned into a mode-specific comment.
 
 Finally, jumping to a scratch buffer is also configured by `scratch-plus-display-action`, which should be a valid action for `display-buffer`, or nil to use `display-buffer-action-alist`.
+
+## Errors and Patches
+
+If you find an error, or have a patch to improve this package, please send an email to `~swflint/emacs-utilities@lists.sr.ht`.

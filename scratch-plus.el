@@ -76,7 +76,11 @@
 ;; Finally, jumping to a scratch buffer is also configured by
 ;; `scratch-plus-display-action', which should be a valid action for
 ;; `display-buffer', or nil to use `display-buffer-action-alist'.
-
+;;
+;;;; Errors and Patches
+;;
+;; If you find an error, or have a patch to improve this package,
+;; please send an email to ~swflint/emacs-utilities@lists.sr.ht.
 ;;; Code:
 
 (require 'project)
