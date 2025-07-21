@@ -356,6 +356,7 @@ If PROJECT is non-nil, do so in project."
                    scratch-plus-initial-message
                  (funcall scratch-plus-initial-message major-mode))))
       (comment-region (point-min) (point-max))
+      (add-file-local-variable-prop-line 'mode major-mode)
       (goto-char (point-max))
       (insert "\n\n"))))
 
