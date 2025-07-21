@@ -66,13 +66,12 @@
           (const :tag "Do not save scratch buffers." nil)
           (directory :tag "Save scratch buffers to directory.")))
 
-(defcustom scratch-plus-autosave nil
+(defcustom scratch-plus-idle-save nil
   "TODO"
   :group 'scratch-plus
   :type '(choice
           (const :tag "Do not autosave scratch buffers." nil)
-          (const :tag "Autosave scratch buffers on buffer switch/focus change." t)
-          (integer :tag "Save buffers every n seconds.")))
+          (integer :tag "Save scratch buffers every n seconds idle time.")))
 
 (defcustom scratch-plus-prevent-kill nil
   "TODO"
@@ -315,6 +314,36 @@ If PROJECT is non-nil, do so in project."
       (insert "\n\n"))))
 
 
+;;; Idle Timer for Save
+
+(defvar scratch-plus--idle-save-timer nil
+  "Idle timer for automatically saving scratch buffers.")
+
+(defvar scratch-plus--idle-timer-initial-time nil
+  "Idle time when timer was set.")
+
+(defun scratch-plus-stop-idle-timer ()
+  "Cancel the scratch-plus idle save timer."
+  (when (timerp scratch-plus--idle-save-timer)
+    (cancel-timer scratch-plus--idle-save-timer))
+  (setf scratch-plus--idle-save-timer nil
+        scratch-plus--idle-timer-initial-time nil))
+
+(defun scratch-plus-start-idle-timer ()
+  "Start the scratch-plus idle save timer."
+  (scratch-plus-stop-idle-timer)
+  (when scratch-plus-idle-save
+    (setf scratch-plus--idle-timer-initial-time scratch-plus-idle-save
+          scratch-plus--idle-save-timer (run-with-idle-timer scratch-plus-idle-save t #'scratch-plus-idle-timer-function))))
+
+(defun scratch-plus-idle-timer-function ()
+  "Save scratch buffers & possibly restart timer."
+  (scratch-plus-save-scratch-buffers)
+  (unless (eq scratch-plus-idle-save scratch-plus--idle-timer-initial-time)
+    (scratch-plus-start-idle-timer)))
+
+
+
 ;;; User Interface
 
 (defun scratch-plus-switch (arg &optional project)
@@ -351,9 +380,11 @@ If PROJECT is non-nil, do so in project."
       (progn
         (add-hook 'kill-buffer-query-functions #'scratch-plus-prevent-kill)
         (add-hook 'kill-emacs-hook #'scratch-plus-save-scratch-buffers)
+        (scratch-plus-start-idle-timer)
         (when scratch-plus-restore-type
           (scratch-plus-restore-scratches)))
     (scratch-plus-save-scratch-buffers)
+    (scratch-plus-stop-idle-timer)
     (remove-hook 'kill-buffer-query-functions #'scratch-plus-prevent-kill)
     (remove-hook 'kill-emacs-hook #'scratch-plus-save-scratch-buffers)))
 
