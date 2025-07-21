@@ -36,7 +36,7 @@
   "Better scratch buffer behavior."
   :group 'convenience)
 
-(defcustom scratch-plus-restore-mode nil
+(defcustom scratch-plus-restore-type 'demand
   "TODO"
   :group 'scratch-plus
   :type '(choice
