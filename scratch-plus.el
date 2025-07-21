@@ -245,6 +245,41 @@ If PROJECT is non-nil, do so in project."
         new-buffer))))
 
 
+;;; Restore scratch buffers
+
+(defun scratch-plus-restore-scratches ()
+  "Restore all global scratch buffers."
+  (when (and (scratch-plus--directory)
+             scratch-plus-restore-type)
+    (cond
+     ((and (eq scratch-plus-restore-type 'demand)
+           (eq scratch-plus-force-restore 'initial))
+      (when-let* ((scratch-buffer (get-buffer "*scratch*")))
+        (kill-buffer scratch-buffer))
+      (scratch-plus-buffer initial-major-mode))
+     ((and (eq scratch-plus-restore-type 'demand)
+           scratch-plus-force-restore)
+      (mapc #'kill-buffer
+            (mapcar #'scratch-plus--format-scratch-buffer-name
+                    (mapcar #'scratch-plus--mode-name-to-mode
+                            (scratch-plus--known-modes-list))))
+      (scratch-plus-buffer initial-major-mode))
+     ((eq scratch-plus-force-restore 'initial)
+      (when-let* ((scratch-buffer (get-buffer "*scratch*")))
+        (kill-buffer scratch-buffer))
+      (mapc #'scratch-plus-buffer
+            (mapcar #'scratch-plus--mode-name-to-mode
+                    (scratch-plus--known-modes-list))))
+     (t
+      (mapc #'kill-buffer
+            (mapcar #'scratch-plus--format-scratch-buffer-name
+                    (mapcar #'scratch-plus--mode-name-to-mode
+                            (scratch-plus--known-modes-list))))
+      (mapc #'scratch-plus-buffer
+            (mapcar #'scratch-plus--mode-name-to-mode
+                    (scratch-plus--known-modes-list)))))))
+
+
 ;;; In-buffer minor mode
 
 (define-minor-mode scratch-plus-minor-mode
