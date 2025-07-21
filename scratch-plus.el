@@ -422,10 +422,10 @@ If PROJECT is non-nil, do so in project."
 
 ;;;###autoload
 (define-minor-mode scratch-plus-mode
-  "Enable scratch-plus mode. TODO"
+  "Enable `scratch-plus' features."
   :global t
   :group 'scratch-plus
-  :keymap 'scratch-plus-mode-map
+  :keymap scratch-plus-mode-map
   (if scratch-plus-mode
       (progn
         (add-hook 'kill-buffer-query-functions #'scratch-plus-prevent-kill)
