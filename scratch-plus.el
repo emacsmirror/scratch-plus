@@ -188,17 +188,18 @@ This function is intended to be placed on the irregular
   (if (not (and scratch-plus-prevent-kill
                 (scratch-plus--buffer-scratch-p (current-buffer))))
       t
-    (scratch-plus--save-buffer (current-buffer))
+    (scratch-plus-save-buffer (current-buffer))
     (when (eq scratch-plus-prevent-kill 'bury)
       (bury-buffer))
     nil))
 
 
 ;;; Save Scratch Buffers
-(defun scratch-plus--save-buffer (&optional buffer)
+(defun scratch-plus-save-buffer (&optional buffer)
   "If BUFFER is a scratch buffer, save based on configuration.
 
 If BUFFER is nil, operate on the current buffer."
+  (interactive)
   (when-let* ((buffer (or buffer (current-buffer)))
               (is-scratch-buffer (scratch-plus--buffer-scratch-p buffer))
               (save-name (scratch-plus--save-name (buffer-local-value 'major-mode buffer)
