@@ -6,7 +6,7 @@
 ;; Keywords: convenience
 ;; Homepage: https://git.sr.ht/~swflint/scratch-plus
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "28.1"))
+;; Package-Requires: ((emacs "29.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 ;;; Code:
 
 (require 'project)
+(require 'cl-lib)
 
 
 ;;; Configuration
@@ -371,6 +372,7 @@ If PROJECT is non-nil, do so in project."
   "C-x M-s" #'scratch-plus-switch
   "C-x p M-s" #'scratch-plus-switch-project)
 
+;;;###autoload
 (define-minor-mode scratch-plus-mode
   "Enable scratch-plus mode. TODO"
   :global t
