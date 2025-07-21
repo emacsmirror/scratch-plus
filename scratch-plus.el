@@ -113,14 +113,14 @@ files in."
    ((stringp scratch-plus-save-directory)
     (file-name-as-directory scratch-plus-save-directory))))
 
-(defun scratch-plus--save-name (buffer &optional project)
-  "Get the name of a save file for BUFFER.
+(defun scratch-plus--save-name (mode &optional project)
+  "Get the name of a save file for MODE.
 
 If PROJECT is non-nil, generate it for PROJECT.
 
 If the target directory does not exist, it will be created."
   (when-let* ((scratch-directory (scratch-plus--directory project)))
-    (file-name-concat scratch-directory (format "scratch.%s" (buffer-local-value 'major-mode buffer)))))
+    (file-name-concat scratch-directory (format "scratch.%s" mode))))
 
 (defun scratch-plus--mode-name-to-mode (the-mode-name)
   "Convert THE-MODE-NAME into the mode function."
