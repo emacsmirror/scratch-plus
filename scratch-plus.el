@@ -236,7 +236,8 @@ If PROJECT is non-nil, do so in project."
           (with-current-buffer buffer
             (scratch-plus-minor-mode)
             (when project
-              (setq-local default-directory (project-root project))))
+              (setq-local default-directory (project-root project)))
+            (set-buffer-modified-p nil))
           buffer)
       (let ((new-buffer (get-buffer-create scratch-buffer-name))
             (save-file-name (and scratch-plus-restore-type
@@ -248,7 +249,8 @@ If PROJECT is non-nil, do so in project."
           (funcall mode)
           (scratch-plus-minor-mode)
           (when project
-            (setq-local default-directory (project-root project))))
+            (setq-local default-directory (project-root project)))
+          (set-buffer-modified-p nil))
         new-buffer))))
 
 
