@@ -287,7 +287,44 @@ If PROJECT is non-nil, do so in project."
   :lighter " S+")
 
 
-;;; Installation
+;;; User Interface
+
+(defun scratch-plus-switch (arg &optional project)
+  "TODO"
+  (interactive "P")
+  (when-let* ((buffer
+               (pcase arg
+                 (`(16)
+                  (when-let* ((major-mode-name (completing-read "Major mode for scratch buffer: "
+                                                                (scratch-plus--known-modes-list project)))
+                              (new-mode (scratch-plus--mode-name-to-mode major-mode-name)))
+                    (scratch-plus-buffer new-mode project)))
+                 (`(4)
+                  (scratch-plus-buffer major-mode project))
+                 (_ (scratch-plus-buffer initial-major-mode project)))))
+    (display-buffer buffer)))
+
+(defun scratch-plus-switch-project (arg)
+  "TODO"
+  (interactive "P")
+  (scratch-plus-switch arg (project-current)))
+
+(defvar-keymap scratch-plus-mode-map
+  :doc "Keymap for `scratch-plus-mode'."
+  "C-x M-s" #'scratch-plus-switch
+  "C-x p M-s" #'scratch-plus-switch-project)
+
+(define-minor-mode scratch-plus-mode
+  "Enable scratch-plus mode. TODO"
+  :global t
+  :group 'scratch-plus
+  :keymap 'scratch-plus-mode-map
+  (if scratch-plus-mode
+      (progn
+        (add-hook 'kill-buffer-query-functions #'scratch-plus-prevent-kill)
+        (when scratch-plus-restore-type
+          (scratch-plus-restore-scratches)))
+    (remove-hook 'kill-buffer-query-functions #'scratch-plus-prevent-kill)))
 
 (provide 'scratch-plus)
 ;;; scratch-plus.el ends here
