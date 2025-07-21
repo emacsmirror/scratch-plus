@@ -88,6 +88,16 @@
   :type '(choice (string :tag "Scratch message.")
                  (function :tag "Message generator function.")))
 
+(defcustom scratch-plus-display-action nil
+  "How scratch buffers should be displayed.
+
+If nil, `display-buffer-action-alist' will be used.  Otherwise, this
+value should be a valid ACTION for `display-buffer', which see."
+  :group 'scratchh-plus
+  :type `(choice (const :tag "Fall-back on display-buffer-alist" nil)
+                 ,display-buffer--action-custom-type)
+  :risky t)
+
 
 ;;; Utilities
 
@@ -360,7 +370,9 @@ If PROJECT is non-nil, do so in project."
                  (`(4)
                   (scratch-plus-buffer major-mode project))
                  (_ (scratch-plus-buffer initial-major-mode project)))))
-    (display-buffer buffer)))
+    (if scratch-plus-display-action
+        (display-buffer buffer scratch-plus-display-action)
+      (display-buffer buffer))))
 
 (defun scratch-plus-switch-project (arg)
   "TODO"
