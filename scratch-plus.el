@@ -82,11 +82,12 @@
   "Format scratch buffer name for MODE.
 
 If PROJECT is non-nil, produce project-scratch style name."
-  (if project
-      (format "*project-scratch[%s/%s]*"
-              (scratch-plus--mode-to-mode-name mode)
-              (project-name project))
-    (format "*scratch[%s]*" (scratch-plus--mode-to-mode-name mode))))
+  (cond
+   (project (format "*project-scratch[%s/%s]*"
+                    (scratch-plus--mode-to-mode-name mode)
+                    (project-name project)))
+   ((eq mode initial-major-mode) "*scratch*")
+   (t (format "*scratch[%s]*" (scratch-plus--mode-to-mode-name mode)))))
 
 (defun scratch-plus--buffer-scratch-p (buffer)
   "Is BUFFER a scratch buffer?
