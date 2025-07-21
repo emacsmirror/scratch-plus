@@ -56,7 +56,8 @@
   :group 'scratch-plus
   :type '(choice
           (string :tag "Save to project subdirectory.")
-          (const :tag "Do not save project-specific scratch buffers." nil)))
+          (const :tag "Do not save project-specific scratch buffers." nil))
+  :safe #'string-or-null-p)
 
 (defcustom scratch-plus-save-directory nil
   "TODO"
