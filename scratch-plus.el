@@ -82,6 +82,12 @@
           (const :tag "Bury the scratch buffer." bury)
           (const :tag "Prevent killing scratch buffers." t)))
 
+(defcustom scratch-plus-initial-message initial-scratch-message
+  "TODO"
+  :group 'scratch-plus
+  :type '(choice (string :tag "Scratch message.")
+                 (function :tag "Message generator function.")))
+
 
 ;;; Utilities
 
@@ -291,9 +297,22 @@ If PROJECT is non-nil, do so in project."
 
 ;;; In-buffer minor mode
 
+(defvar-keymap scratch-plus-minor-mode-map
+  "<remap> <save-buffer>" #'scratch-plus-save-buffer)
+
 (define-minor-mode scratch-plus-minor-mode
   "TODO"
-  :lighter " S+")
+  :lighter " S+"
+  :keymap scratch-plus-minor-mode-map
+  (when scratch-plus-minor-mode
+    (when (= (buffer-size (current-buffer)) 0)
+      (insert (substitute-command-keys
+               (if (stringp scratch-plus-initial-message)
+                   scratch-plus-initial-message
+                 (funcall scratch-plus-initial-message major-mode))))
+      (comment-region (point-min) (point-max))
+      (goto-char (point-max))
+      (insert "\n\n"))))
 
 
 ;;; User Interface
