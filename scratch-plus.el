@@ -215,6 +215,12 @@ If BUFFER is nil, operate on the current buffer."
                                                       (project-current))))))
     (write-region (point-min) (point-max) save-name nil nil)))
 
+(defun scratch-plus-save-scratch-buffers ()
+  "Save all scratch buffers based on current configuration."
+  (dolist (buffer (buffer-list))
+    (when (scratch-plus--buffer-scratch-p buffer)
+      (scratch-plus-save-buffer buffer))))
+
 
 ;;; Open Scratch Buffers
 
@@ -322,9 +328,12 @@ If PROJECT is non-nil, do so in project."
   (if scratch-plus-mode
       (progn
         (add-hook 'kill-buffer-query-functions #'scratch-plus-prevent-kill)
+        (add-hook 'kill-emacs-hook #'scratch-plus-save-scratch-buffers)
         (when scratch-plus-restore-type
           (scratch-plus-restore-scratches)))
-    (remove-hook 'kill-buffer-query-functions #'scratch-plus-prevent-kill)))
+    (scratch-plus-save-scratch-buffers)
+    (remove-hook 'kill-buffer-query-functions #'scratch-plus-prevent-kill)
+    (remove-hook 'kill-emacs-hook #'scratch-plus-save-scratch-buffers)))
 
 (provide 'scratch-plus)
 ;;; scratch-plus.el ends here
