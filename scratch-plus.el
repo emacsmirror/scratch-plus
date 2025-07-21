@@ -134,6 +134,45 @@ If the target directory does not exist, it will be created."
          (hash-tick (string= "#'" (substring mode-string 0 2))))
     (substring mode-string (if hash-tick 2 0) (- (length mode-string) 5))))
 
+(defun scratch-plus--known-modes-list (&optional project)
+  "List known scratch modes.
+
+If PROJECT is non-nil, use data for PROJECT."
+  (let ((initial-match-regexp (if project
+                                  (rx bol "*project-scratch")
+                                (rx bol "*scratch")))
+        (buffer-match-regexp (if project
+                                 (rx-to-string `(and
+                                                 bol
+                                                 "*project-scratch["
+                                                 (group-n 1 (* any))
+                                                 ,(format "/%s]*" (project-name project))
+                                                 eol))
+                               (rx bol
+                                   "*scratch["
+                                   (group-n 1 (* any))
+                                   "]*"
+                                   eol)))
+        (save-directory (scratch-plus--directory project)))
+    (cl-remove-duplicates
+     (append
+      (mapcar (lambda (buffer)
+                (save-match-data
+                  (let ((name (buffer-name buffer)))
+                    (if (string-match buffer-match-regexp name)
+                        (match-string 1 name)
+                      (scratch-plus--mode-to-mode-name initial-major-mode)))))
+              (cl-remove-if-not (apply-partially #'string-match-p initial-match-regexp)
+                                (buffer-list)
+                                :key #'buffer-name))
+      (when save-directory
+        (delq nil
+              (mapcar (lambda (name)
+                        (when (string-match (rx bol "scratch." (group-n 1 (* any)) "-mode" eol) name)
+                          (match-string 1 name)))
+                      (directory-files save-directory)))))
+     :test #'string=)))
+
 
 ;;; Prevent Killing
 
