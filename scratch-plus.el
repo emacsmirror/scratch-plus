@@ -234,6 +234,8 @@ If PROJECT is non-nil, generate it for PROJECT.
 
 If the target directory does not exist, it will be created."
   (when-let* ((scratch-directory (scratch-plus--directory project)))
+    (unless (file-directory-p scratch-directory)
+      (make-directory scratch-directory t))
     (file-name-concat scratch-directory (format "scratch.%s" mode))))
 
 (defun scratch-plus--mode-name-to-mode (the-mode-name)
