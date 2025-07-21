@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: Copyright (C) 2025 Samuel W. Flint <swflint@samuelwflint.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+version = 1
+SPDX-PackageName = "scratch-plus"
+SPDX-PackageSupplier = "Samuel W. Flint <swflint@samuelwflint.com>"
+SPDX-PackageDownloadLocation = "https://git.sr.ht/~swflint/scratch-plus"
+
+[[annotations]]
+path = "*.el"
+SPDX-FileCopyrightText = "Copyright (C) 2025 Samuel W. Flint <swflint@samuelwflint.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = "*.md"
+SPDX-FileCopyrightText = "Copyright (C) 2025 Samuel W. Flint <swflint@samuelwflint.com>"
+SPDX-License-Identifier = "GFDL-1.3-or-later"

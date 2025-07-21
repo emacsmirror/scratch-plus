@@ -1,0 +1,54 @@
+# -*- mode: gitignore; -*-
+# SPDX-FileCopyrightText: Copyright (C) 2025 Samuel W. Flint <me@samuelwflint.com>
+# SPDX-License-Identifier: CC0-1.0
+
+.*
+!.gitignore
+!.gitattributes
+!.gitmodules
+!.gitkeep
+!.dir-locals.el
+
+# Emacs Stuff
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Org-mode
+.org-id-locations
+*_archive
+
+# flymake-mode
+*_flymake.*
+
+# eshell files
+/eshell/history
+/eshell/lastdir
+
+# elpa packages
+/elpa/
+
+# reftex files
+*.rel
+
+# AUCTeX auto folder
+/auto/
+*/auto/
+
+# cask packages
+.cask/
+dist/
+
+# Flycheck
+flycheck_*.el
+
+# server auth directory
+/server/
+
+# projectiles files
+.projectile
