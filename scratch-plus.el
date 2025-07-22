@@ -338,6 +338,8 @@ If BUFFER is nil, operate on the current buffer."
   "Get or restore scratch buffer for MODE.
 
 If PROJECT is non-nil, do so in project."
+  (when (eq mode 'fundamental-mode)
+    (error "`fundamental-mode' is not a supported scratch mode"))
   (let* ((scratch-buffer-name (scratch-plus--format-scratch-buffer-name mode project))
          (buffer (get-buffer scratch-buffer-name)))
     (if buffer
@@ -417,6 +419,8 @@ This minor mode does two things:
    buffer correctly."
   :lighter " S+"
   :keymap scratch-plus-minor-mode-map
+  (when (eq major-mode 'fundamental-mode)
+    (setq scratch-plus-minor-mode nil))
   (when scratch-plus-minor-mode
     (when (= (buffer-size (current-buffer)) 0)
       (insert (substitute-command-keys
