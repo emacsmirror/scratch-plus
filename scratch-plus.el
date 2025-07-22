@@ -301,8 +301,10 @@ The buffer will not be killed if it is a scratch buffer, and
 
 This function is intended to be placed on the irregular
 `kill-buffer-query-functions' hook."
-  (if (not (and scratch-plus-prevent-kill
-                (scratch-plus--buffer-scratch-p (current-buffer))))
+  (if (or (not (and scratch-plus-prevent-kill
+                    (scratch-plus--buffer-scratch-p (current-buffer))))
+          (eq major-mode 'fundamental-mode)
+          (= (buffer-size (current-buffer)) 0))
       t
     (scratch-plus-save-buffer (current-buffer))
     (when (eq scratch-plus-prevent-kill 'bury)
