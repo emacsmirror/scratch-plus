@@ -5,7 +5,7 @@
 ;; Author: Samuel W. Flint <swflint@flintfam.org>
 ;; Keywords: convenience
 ;; Homepage: https://git.sr.ht/~swflint/scratch-plus
-;; Version: 1.0.0
+;; Version: 1.1.0
 ;; Package-Requires: ((emacs "29.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
