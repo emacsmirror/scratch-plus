@@ -524,11 +524,11 @@ ARG follows semantics for
   :keymap scratch-plus-mode-map
   (if scratch-plus-mode
       (progn
+	(when scratch-plus-restore-type
+          (scratch-plus-restore-scratches))
         (add-hook 'kill-buffer-query-functions #'scratch-plus-prevent-kill)
         (add-hook 'kill-emacs-hook #'scratch-plus-save-scratch-buffers)
-        (scratch-plus-start-idle-timer)
-        (when scratch-plus-restore-type
-          (scratch-plus-restore-scratches)))
+        (scratch-plus-start-idle-timer))
     (scratch-plus-save-scratch-buffers)
     (scratch-plus-stop-idle-timer)
     (remove-hook 'kill-buffer-query-functions #'scratch-plus-prevent-kill)
