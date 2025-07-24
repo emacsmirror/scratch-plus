@@ -319,7 +319,9 @@ This function is intended to be placed on the irregular
 If BUFFER is nil, operate on the current buffer."
   (interactive)
   (when-let* ((buffer (or buffer (current-buffer)))
-              (is-scratch-buffer (scratch-plus--buffer-scratch-p buffer))
+              (is-scratch-buffer (and (not (eq major-mode 'fundamental-mode))
+                                      (> (buffer-size (current-buffer)) 0)
+                                      (scratch-plus--buffer-scratch-p buffer)))
               (save-name (scratch-plus--save-name (buffer-local-value 'major-mode buffer)
                                                   (when (eq is-scratch-buffer 'project-scratch)
                                                     (with-current-buffer buffer
