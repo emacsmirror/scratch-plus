@@ -513,7 +513,6 @@ ARG follows semantics for
 (defvar-keymap scratch-plus-mode-map
   :doc "Keymap for `scratch-plus-mode'."
   "C-x M-s" #'scratch-plus-switch
-  "C-x p M-s" #'scratch-plus-switch-project
   "<remap> <scratch-buffer>" #'scratch-plus-switch)
 
 ;;;###autoload
