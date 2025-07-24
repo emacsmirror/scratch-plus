@@ -326,8 +326,9 @@ If BUFFER is nil, operate on the current buffer."
                                                   (when (eq is-scratch-buffer 'project-scratch)
                                                     (with-current-buffer buffer
                                                       (project-current))))))
-    (write-region (point-min) (point-max) save-name nil nil)
-    (set-buffer-modified-p nil)))
+    (with-current-buffer buffer
+      (write-region (point-min) (point-max) save-name nil nil)
+      (set-buffer-modified-p nil))))
 
 (defun scratch-plus-save-scratch-buffers ()
   "Save all scratch buffers based on current configuration."
