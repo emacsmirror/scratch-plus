@@ -323,7 +323,7 @@ If BUFFER is nil, operate on the current buffer."
                                       (> (buffer-size (current-buffer)) 0)
                                       (scratch-plus--buffer-scratch-p buffer)))
               (save-name (scratch-plus--save-name (buffer-local-value 'major-mode buffer)
-                                                  (when (eq is-scratch-buffer 'project-scratch)
+                                                  (when (eq is-scratch-buffer 'project)
                                                     (with-current-buffer buffer
                                                       (project-current))))))
     (with-current-buffer buffer
